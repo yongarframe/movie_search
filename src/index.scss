@@ -1,0 +1,12 @@
+body {
+  div {
+    ul {
+      li:hover {
+        background-color: white;
+        transform: scale(1.1);
+        transition: 0.3s;
+        filter: drop-shadow(0 0 30px rgb(0, 0, 0, 0.5));
+      }
+    }
+  }
+}

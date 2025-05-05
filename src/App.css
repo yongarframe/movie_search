@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+* {
+  scroll-behavior: smooth;
+}
+
+ul {
+  list-style: none;
+}
+
+.more-button {
+  @apply cursor-pointer w-16 h-16 fixed right-5 bottom-24 
+  bg-amber-300/60 backdrop-blur-md 
+  text-white shadow-md 
+  hover:scale-105 hover:shadow-xl 
+  transition-all duration-300 
+  rounded-full flex items-center justify-center text-xl;
+}
+
+.top-button {
+  @apply cursor-pointer w-16 h-16 fixed right-5 bottom-45
+  bg-amber-300/60 backdrop-blur-md 
+  text-white shadow-md 
+  hover:scale-105 hover:shadow-xl 
+  transition-all duration-300 
+  rounded-full flex items-center justify-center text-xl;
+}

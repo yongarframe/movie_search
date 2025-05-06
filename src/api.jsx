@@ -15,10 +15,4 @@ export default async function MovieLoad(page) {
   );
   const data = await res.json();
   return data;
-
-  // .then((res) => res.json())
-  // .then((res) => {
-  // 	setMovieData(res.results);
-  // })
-  // .catch((err) => console.error(err));
 }

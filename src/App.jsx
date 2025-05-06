@@ -4,36 +4,34 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import MovieDetail from "./components/MovieDetail";
 import Layout from "./components/Layout";
 import { useEffect, useState } from "react";
-import MovieLoad from "./api";
 import Search from "./components/Search";
 import { radomPages } from "./functions/RandomPage";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovieData } from "./RTK/thunk";
+
+const API = import.meta.env.VITE_API_TOKEN;
+
+// 첫 검색시 바로 search 페이지로 넘어가는 문제 수정 필요 (디바운스와 동일하게 1초뒤 변경할것)
+// swiper 의 random 페이지도 redux 로 관리하기
 
 function App() {
-  const [movieData, setMovieData] = useState([]);
-  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
+  const page = useSelector((state) => state.movie.page);
   const location = useLocation();
   const [isImageLoading, setisImageLoading] = useState(true);
 
-  const handleLoad = async (page) => {
-    // Page 전달 후 추가로 영화 불러오기
-    const data = await MovieLoad(page); //  API 데이터 fetch 함수 실행
-    if (page <= 500) {
-      setMovieData([...movieData, ...data.results]); // 기존 데이터 + 불러온 데이터
-    }
-    setPage((prev) => prev + 1); // 페이지 + 1
-  };
-
-  // 렌더링 후 1번만 영화 데이터 불러오기
   useEffect(() => {
-    handleLoad(page);
+    dispatch(fetchMovieData({ API, page }));
   }, []);
+
+  const handleLoad = async (page) => {
+    dispatch(fetchMovieData({ API, page: page + 1 }));
+  };
 
   const [swiperPages, setSwiperPages] = useState(null);
   useEffect(() => {
     setSwiperPages(radomPages(1));
   }, []);
-
-  console.log(movieData);
 
   return (
     <>
@@ -43,7 +41,6 @@ function App() {
             path="/"
             element={
               <MovieCard
-                movieData={movieData}
                 swiperPages={swiperPages}
                 isImageLoading={isImageLoading}
                 setisImageLoading={setisImageLoading}
@@ -55,7 +52,6 @@ function App() {
             path={"/search"}
             element={
               <Search
-                movieData={movieData}
                 swiperPages={swiperPages}
                 isImageLoading={isImageLoading}
                 setisImageLoading={setisImageLoading}

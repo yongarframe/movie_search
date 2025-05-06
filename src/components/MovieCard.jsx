@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import SwiperMovieCard from "./SwiperMovieCard";
+import { useSelector } from "react-redux";
 
 const Spiner = styled.div`
   width: 50px;
@@ -22,11 +23,11 @@ const Spiner = styled.div`
 `;
 
 export default function MovieCard({
-  movieData,
   swiperPages,
   isImageLoading,
   setisImageLoading,
 }) {
+  const movieData = useSelector((state) => state.movie).results;
   return (
     <>
       {swiperPages?.map((swiperPage) => (

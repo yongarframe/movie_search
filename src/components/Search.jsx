@@ -2,30 +2,29 @@ import { getRegExp } from "korean-regexp";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import SwiperMovieCard from "./SwiperMovieCard";
+import { useSelector } from "react-redux";
 
 export default function Search({
-  movieData,
   swiperPages,
   isImageLoading,
   setisImageLoading,
 }) {
+  const movieData = useSelector((state) => state.movie).results;
   const [filteredData, setFilteredData] = useState([]);
 
   const [searchParms] = useSearchParams();
   const params = searchParms.get("movie");
   const reg = getRegExp(params);
 
-  console.log(params);
   useEffect(() => {
     // debounce
     const debounceTimeer = setTimeout(() => {
       const newfilteredData = movieData.filter((el) => el.title.match(reg));
       setFilteredData(newfilteredData);
-    }, 1000);
+    }, 1500);
     return () => clearTimeout(debounceTimeer);
   }, [params]);
 
-  console.log(filteredData);
   return (
     <>
       {swiperPages?.map((swiperPage) => (
